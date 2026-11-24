@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.ContextMenu?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.input.KeyCodeCombination?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane prefHeight="800.0" prefWidth="1280.0"
+            style="-fx-background-color: #FFFBEB; -fx-font-family: 'Segoe UI', 'Arial', sans-serif; -fx-font-size: 13px;"
+            xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="GymFitController">
+
+    <top>
+        <VBox style="-fx-background-color: #FEF3C7; -fx-border-color: #FCD34D; -fx-border-width: 0 0 1 0;">
+            <MenuBar style="-fx-background-color: #FEF3C7;">
+                <menus>
+                    <Menu text="Archivo">
+                        <items>
+                            <MenuItem onAction="#onNuevo" text="Nuevo socio">
+                                <accelerator>
+                                    <KeyCodeCombination alt="UP" code="N" control="DOWN" meta="UP" shift="UP" shortcut="UP"/>
+                                </accelerator>
+                            </MenuItem>
+                            <MenuItem onAction="#onGuardar" text="Guardar socio">
+                                <accelerator>
+                                    <KeyCodeCombination alt="UP" code="S" control="DOWN" meta="UP" shift="UP" shortcut="UP"/>
+                                </accelerator>
+                            </MenuItem>
+                            <MenuItem onAction="#onSalir" text="Salir"/>
+                        </items>
+                    </Menu>
+                    <Menu text="Editar">
+                        <items>
+                            <MenuItem onAction="#onLimpiar" text="Limpiar formulario">
+                                <accelerator>
+                                    <KeyCodeCombination alt="UP" code="Z" control="DOWN" meta="UP" shift="UP" shortcut="UP"/>
+                                </accelerator>
+                            </MenuItem>
+                            <MenuItem text="Buscar socio">
+                                <accelerator>
+                                    <KeyCodeCombination alt="UP" code="F" control="DOWN" meta="UP" shift="UP" shortcut="UP"/>
+                                </accelerator>
+                            </MenuItem>
+                        </items>
+                    </Menu>
+                    <Menu text="Ver">
+                        <items>
+                            <MenuItem text="Actualizar listado"/>
+                        </items>
+                    </Menu>
+                    <Menu text="Socios">
+                        <items>
+                            <MenuItem text="Renovar cuota"/>
+                            <MenuItem onAction="#onDarDeBaja" text="Dar de baja"/>
+                        </items>
+                    </Menu>
+                    <Menu text="Ayuda">
+                        <items>
+                            <MenuItem text="Manual rápido"/>
+                            <MenuItem text="Acerca de GymFit"/>
+                        </items>
+                    </Menu>
+                </menus>
+            </MenuBar>
+
+            <ToolBar style="-fx-background-color: #FDE68A; -fx-padding: 8 14 8 14;">
+                <items>
+                    <Button onAction="#onNuevo"
+                            style="-fx-background-color: #FFFBEB; -fx-text-fill: #78350F; -fx-font-weight: bold; -fx-border-color: #F59E0B; -fx-border-radius: 6; -fx-background-radius: 6; -fx-padding: 6 12;"
+                            text="✚ Nuevo">
+                        <tooltip><Tooltip text="Nuevo socio (Ctrl+N)"/></tooltip>
+                    </Button>
+                    <Button onAction="#onGuardar"
+                            style="-fx-background-color: #D97706; -fx-text-fill: #FFFFFF; -fx-font-weight: bold; -fx-background-radius: 6; -fx-padding: 6 12;"
+                            text="💾 Guardar">
+                        <tooltip><Tooltip text="Guardar socio (Ctrl+S)"/></tooltip>
+                    </Button>
+                    <Button style="-fx-background-color: #FFFBEB; -fx-text-fill: #78350F; -fx-border-color: #F59E0B; -fx-border-radius: 6; -fx-background-radius: 6; -fx-padding: 6 12;"
+                            text="🔍 Buscar">
+                        <tooltip><Tooltip text="Buscar socio (Ctrl+F)"/></tooltip>
+                    </Button>
+                    <Region HBox.hgrow="ALWAYS"/>
+                    <Button onAction="#onDarDeBaja"
+                            style="-fx-background-color: #FEE2E2; -fx-text-fill: #991B1B; -fx-font-weight: bold; -fx-background-radius: 6; -fx-padding: 6 12;"
+                            text="🗑 Dar de baja">
+                        <tooltip><Tooltip text="Dar de baja al socio seleccionado (pide confirmación)"/></tooltip>
+                    </Button>
+                </items>
+            </ToolBar>
+        </VBox>
+    </top>
+
+    <center>
+        <SplitPane dividerPositions="0.46" style="-fx-background-color: #FFFBEB; -fx-padding: 14;">
+            <items>
+                <VBox spacing="12.0"
+                      style="-fx-background-color: #FFFFFF; -fx-background-radius: 8; -fx-border-color: #FCD34D; -fx-border-radius: 8; -fx-padding: 18;">
+                    <children>
+                        <Label style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #78350F;"
+                               text="Alta de socio nuevo"/>
+                        <Label style="-fx-text-fill: #92400E; -fx-font-size: 12px;"
+                               text="Completa los datos del socio. Los campos con * son obligatorios."/>
+
+                        <GridPane hgap="10.0" vgap="10.0">
+                            <columnConstraints>
+                                <ColumnConstraints minWidth="130.0" prefWidth="135.0"/>
+                                <ColumnConstraints hgrow="ALWAYS" prefWidth="260.0"/>
+                            </columnConstraints>
+                            <rowConstraints>
+                                <RowConstraints minHeight="32.0"/>
+                                <RowConstraints minHeight="32.0"/>
+                                <RowConstraints minHeight="32.0"/>
+                                <RowConstraints minHeight="32.0"/>
+                                <RowConstraints minHeight="32.0"/>
+                                <RowConstraints minHeight="32.0"/>
+                                <RowConstraints minHeight="32.0"/>
+                                <RowConstraints minHeight="32.0"/>
+                                <RowConstraints minHeight="32.0"/>
+                            </rowConstraints>
+                            <children>
+                                <Label style="-fx-font-weight: bold; -fx-text-fill: #78350F;" text="Nombre *" GridPane.rowIndex="0"/>
+                                <TextField fx:id="txtNombre" promptText="Ej. Laura" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+
+                                <Label style="-fx-font-weight: bold; -fx-text-fill: #78350F;" text="Primer apellido *" GridPane.rowIndex="1"/>
+                                <TextField fx:id="txtApellido1" promptText="Ej. Gómez" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+
+                                <Label style="-fx-font-weight: bold; -fx-text-fill: #78350F;" text="Segundo apellido *" GridPane.rowIndex="2"/>
+                                <TextField fx:id="txtApellido2" promptText="Ej. Ruiz" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+
+                                <Label style="-fx-font-weight: bold; -fx-text-fill: #78350F;" text="Fecha nacimiento *" GridPane.rowIndex="3"/>
+                                <DatePicker fx:id="dpFechaNac" maxWidth="Infinity" promptText="dd/mm/aaaa (Ej. 14/05/2003)" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+
+                                <Label style="-fx-font-weight: bold; -fx-text-fill: #78350F;" text="Sexo *" GridPane.rowIndex="4"/>
+                                <HBox spacing="14.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                                    <children>
+                                        <RadioButton fx:id="rbMujer" text="Mujer"/>
+                                        <RadioButton fx:id="rbHombre" text="Hombre"/>
+                                        <RadioButton fx:id="rbOtro" text="Otro"/>
+                                    </children>
+                                </HBox>
+
+                                <Label style="-fx-font-weight: bold; -fx-text-fill: #78350F;" text="Provincia *" GridPane.rowIndex="5"/>
+                                <ComboBox fx:id="cbProvincia" maxWidth="Infinity" promptText="Selecciona provincia (Ej. Sevilla)" GridPane.columnIndex="1" GridPane.rowIndex="5"/>
+
+                                <Label style="-fx-font-weight: bold; -fx-text-fill: #78350F;" text="Tipo de cuota *" GridPane.rowIndex="6"/>
+                                <HBox spacing="8.0" GridPane.columnIndex="1" GridPane.rowIndex="6">
+                                    <children>
+                                        <RadioButton fx:id="rbBasica" text="Básica"/>
+                                        <RadioButton fx:id="rbPlus" text="Plus"/>
+                                        <RadioButton fx:id="rbPremium" text="Premium"/>
+                                        <RadioButton fx:id="rbJoven" text="Joven"/>
+                                        <RadioButton fx:id="rbSenior" text="Senior"/>
+                                    </children>
+                                </HBox>
+
+                                <Label style="-fx-font-weight: bold; -fx-text-fill: #78350F;" text="Clase *" GridPane.rowIndex="7"/>
+                                <ComboBox fx:id="cbClase" maxWidth="Infinity" promptText="Selecciona clase (Ej. Spinning)" GridPane.columnIndex="1" GridPane.rowIndex="7"/>
+
+                                <Label style="-fx-font-weight: bold; -fx-text-fill: #78350F;" text="IBAN *" GridPane.rowIndex="8"/>
+                                <TextField fx:id="txtIban" promptText="Ej. ES12 3456 7890 1234 5678 9012" GridPane.columnIndex="1" GridPane.rowIndex="8"/>
+                            </children>
+                        </GridPane>
+
+                        <Region VBox.vgrow="ALWAYS"/>
+                        <Separator/>
+
+                        <HBox alignment="CENTER_LEFT" spacing="10.0">
+                            <children>
+                                <Button onAction="#onGuardar"
+                                        style="-fx-background-color: #D97706; -fx-text-fill: #FFFFFF; -fx-font-weight: bold; -fx-background-radius: 6; -fx-padding: 8 18;"
+                                        text="Guardar socio"/>
+                                <Button onAction="#onLimpiar"
+                                        style="-fx-background-color: #FEF3C7; -fx-text-fill: #78350F; -fx-border-color: #F59E0B; -fx-border-radius: 6; -fx-background-radius: 6; -fx-padding: 8 14;"
+                                        text="Limpiar campos"/>
+                                <Region HBox.hgrow="ALWAYS"/>
+                                <Button onAction="#onDarDeBaja"
+                                        style="-fx-background-color: #FFFFFF; -fx-text-fill: #B91C1C; -fx-border-color: #FCA5A5; -fx-border-radius: 6; -fx-background-radius: 6; -fx-padding: 8 14;"
+                                        text="Dar de baja"/>
+                            </children>
+                        </HBox>
+                    </children>
+                </VBox>
+
+                <VBox spacing="12.0"
+                      style="-fx-background-color: #FFFFFF; -fx-background-radius: 8; -fx-border-color: #FCD34D; -fx-border-radius: 8; -fx-padding: 18;">
+                    <children>
+                        <Label style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #78350F;"
+                               text="Socios registrados"/>
+                        <Label style="-fx-text-fill: #92400E; -fx-font-size: 12px;"
+                               text="Haz clic derecho sobre un socio para abrir acciones rápidas."/>
+
+                        <TableView fx:id="tablaSocios" VBox.vgrow="ALWAYS">
+                            <columns>
+                                <TableColumn fx:id="colNombre" prefWidth="95.0" text="Nombre"/>
+                                <TableColumn fx:id="colApellidos" prefWidth="140.0" text="Apellidos"/>
+                                <TableColumn fx:id="colFecha" prefWidth="105.0" text="F. nac."/>
+                                <TableColumn fx:id="colProvincia" prefWidth="95.0" text="Provincia"/>
+                                <TableColumn fx:id="colCuota" prefWidth="80.0" text="Cuota"/>
+                                <TableColumn fx:id="colClase" prefWidth="95.0" text="Clase"/>
+                            </columns>
+                            <contextMenu>
+                                <ContextMenu>
+                                    <items>
+                                        <MenuItem text="Editar socio"/>
+                                        <MenuItem text="Renovar cuota"/>
+                                        <MenuItem text="Congelar membresía"/>
+                                        <MenuItem text="Ver historial"/>
+                                        <MenuItem text="Duplicar ficha"/>
+                                        <MenuItem text="Exportar ficha"/>
+                                        <MenuItem onAction="#onDarDeBaja" text="Dar de baja"/>
+                                    </items>
+                                </ContextMenu>
+                            </contextMenu>
+                        </TableView>
+
+                        <VBox fx:id="panelMensaje" spacing="4.0"
+                              style="-fx-background-color: #FEF2F2; -fx-border-color: #F87171; -fx-border-radius: 6; -fx-background-radius: 6; -fx-padding: 12;">
+                            <children>
+                                <Label fx:id="lblTituloError"
+                                       style="-fx-font-weight: bold; -fx-text-fill: #991B1B; -fx-font-size: 14px;"
+                                       text="Revisa la fecha de nacimiento"/>
+                                <Label fx:id="lblDetalleError"
+                                       style="-fx-text-fill: #7F1D1D;"
+                                       text="No se ha podido guardar el alta porque falta o no es válida la fecha de nacimiento."
+                                       wrapText="true"/>
+                                <Label fx:id="lblSolucionError"
+                                       style="-fx-text-fill: #7F1D1D; -fx-font-weight: bold;"
+                                       text="Cómo solucionarlo: selecciona la fecha en el calendario o escríbela como 14/05/2003 y pulsa «Guardar socio»."
+                                       wrapText="true"/>
+                            </children>
+                        </VBox>
+                    </children>
+                </VBox>
+            </items>
+        </SplitPane>
+    </center>
+</BorderPane>
